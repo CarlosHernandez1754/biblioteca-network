@@ -1,0 +1,3 @@
+jwt:
+  secret: 7f-j$CKk=coNzZc0y7_4obMP?#TfcYq%fcD0KtKwfw$T-R-hex8=Xw8Rm_3I9
+  expiration: 86400000 # 24 horas en milisegundos

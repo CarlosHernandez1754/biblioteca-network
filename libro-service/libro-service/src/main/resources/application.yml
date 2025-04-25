@@ -1,0 +1,19 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: libro-service
+  data:
+    mongodb:
+      uri: mongodb://mongodb:27017/librodb
+
+# Configuración de Actuator para monitoreo
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always

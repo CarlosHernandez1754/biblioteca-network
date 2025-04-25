@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - biblioteca-network
+
+  libro-service:
+    build: ./libro-service
+    container_name: libro-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongodb
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/librodb
+    networks:
+      - biblioteca-network
+
+  autor-service:
+    build: ./autor-service
+    container_name: autor-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mongodb
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/autordb
+    networks:
+      - biblioteca-network
+
+  gateway-service:
+    build: ./gateway-service
+    container_name: gateway-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - libro-service
+      - autor-service
+    networks:
+      - biblioteca-network
+
+networks:
+  biblioteca-network:
+    driver: bridge
+
+volumes:
+  mongo_data:
